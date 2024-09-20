@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Messages</title>
+  <link th:replace="~{home :: bootstrapImport}">
+</head>
+<body>
+<nav th:replace="~{home :: navbar}"></nav>
+<div style="display: flex;flex-direction: column;text-align: center">
+  <p th:if="${messages == null || messages.isEmpty()}">No message Yet</p>
+  <div th:each="m : ${messages}">
+    <div>
+      <div style="text-align: center">
+        <a th:href="@{/user/{id}(id=${m.getUser().getId()})}">
+          <div style="text-align: center">
+            <img style="width: 10%;height: auto" th:src="@{/image/avatar/{filename}(filename=${m.getUser().imgPath})}" th:alt="'Avatar of ' + ${m.getUser().name}">
+
+            <p>User : <span th:text="${m.getUser().name}"></span></p>
+
+          </div>
+        </a>
+        <p>Date : <span th:text="${m.getDateTime()}"></span></p>
+
+        <div style="border: 1px solid; margin-left:auto;margin-right: auto;margin: 50px">
+          <p th:text="${m.content}"></p>
+        </div>
+        <div>
+          <a class="btn btn-outline-danger" th:href="@{/messages/delete/{id}(id=${m.getId()})}" th:if="${isAdmin || m.user.getId() == user.getId()}" ><i class="bi bi-trash-fill"></i></a>
+          <a class="btn btn-outline-secondary" th:href="@{/messages/delete/{id}(id=${m.getId()})}" th:if="${m.user.getId() == user.getId()}"><i class="bi bi-pencil"></i></a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<div style="text-align:center">
+  <form action="/messages" method="post">
+    <label for="message" hidden="hidden"></label>
+    <input id="message" type="text" name="message" placeholder="Send a Message..." style="width: 50%;height: 100px">
+    <button class="btn btn-outline-primary"><i class="bi bi-send"></i></button>
+  </form>
+</div>
+<footer th:replace="~{home :: footer}"></footer>
+</body>
+</html>

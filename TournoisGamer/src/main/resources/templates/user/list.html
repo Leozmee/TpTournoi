@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link th:replace="~{home :: bootstrapImport}">
+</head>
+<body>
+<span th:replace="~{home :: navbar}"></span>
+<main>
+    <div class="container">
+            <a th:each="u : ${users}" th:href="@{/user/{id}(id=${u.getId()})}">
+                <div>
+                    <img th:src="@{/image/avatar/{filename}(filename=${u.getImgPath() == null} ? 'no-icon.png' : ${u.getImgPath()})}" th:alt="'Avatar of ' + ${u.name}">
+                </div>
+                <div>
+                    <h1 th:text="${u.name}"></h1>
+                </div>
+                <div>
+                    <p><span th:text="${u.getWin()}"></span>/<span th:text="${u.getDefeat()}"></span>(<span th:text="${u.getRatio()}"></span>)</p>
+                </div>
+            </a>
+        <p th:if="${users.isEmpty()}">No Users Yet</p>
+    </div>
+</main>
+<span th:replace="~{home :: footer}"></span>
+</body>
+</html>

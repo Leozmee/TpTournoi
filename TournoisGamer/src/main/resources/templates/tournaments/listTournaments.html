@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournament List</title>
+    <link th:replace="~{home :: bootstrapImport}">
+</head>
+<body>
+<!-- NAVBAR -->
+<span th:replace="~{home :: navbar}"></span>
+
+<!-- BODY -->
+<div class="container">
+    <h1>Tournaments list</h1>
+    <table class="tournaments" th:unless="${tournaments.isEmpty()}">
+        <thead>
+        <tr>
+            <th th:if="${isAdmin}" scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Game</th>
+            <th scope="col">Status</th>
+
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="t : ${tournaments}">
+            <td th:if="${isAdmin}" th:text="${t.getId()}"></td>
+            <td th:text="${t.getName()}"></td>
+            <td th:text="${t.getDate()}"></td>
+            <td th:text="${t.getGame()}"></td>
+            <td th:text="${t.getStatus()}"></td>
+            <td><a th:href="@{/tournaments/{id}(id=${t.getId()})}" class="btn btn-outline-info">Get details</a></td></tr>
+        </tbody>
+    </table>
+
+    <div th:if="${isAdmin}">
+        <a th:href="@{/tournaments/add}">Add new tournament</a>
+    </div>
+</div>
+
+
+<!-- FOOTER -->
+<span th:replace="~{home :: footer}"></span>
+</body>
+</html>

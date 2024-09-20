@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournament Details</title>
+    <link th:replace="~{home :: bootstrapImport}">
+</head>
+<body>
+<!-- NAVBAR -->
+<span th:replace="~{home :: navbar}"></span>
+
+<!-- BODY -->
+
+<div class="container">
+    <h1>Tournament Details</h1>
+    <a th:if="${isAdmin}" th:href="@{/tournaments/update/{id}(id=${tournament.getId()})}">Update</a>
+    <a th:if="${isAdmin}" th:href="@{/tournaments/delete/{id}(id=${tournament.getId()})}">Delete</a>
+    <hr>
+    <div class="col justify-content-center" th:if="${tournament != null}">
+        <p>Name : <span th:text="${tournament.getName()}"></span></p>
+        <p>Date : <span th:text="${tournament.getDate()}"></span></p>
+        <p>Game : <span th:text="${tournament.getGame()}"></span></p>
+        <p>Player limit : <span th:text="${tournament.getPlayerLimit()}"></span></p>
+        <p>Rules : <span th:text="${tournament.getRules()}"></span></p>
+        <p>Format : <span th:text="${tournament.getFormat()}"></span></p>
+        <p>Status : <span th:text="${tournament.getStatus()}"></span></p>
+        <p></p>
+        <p>Subscribed Players : </p>
+        <p th:if="${tournament.getPlayers().isEmpty()}">No Player Subscribed Yet</p>
+        <div th:unless="${tournament.getPlayers().isEmpty()}" style="display: flex;flex-direction: row;">
+            <div th:each="p : ${tournament.getPlayers()}" class="card" style="width: 10rem;margin: 2px">
+                <div class="card-body">
+                    <div style="display: flex;justify-content: center;"><img
+                            th:src="@{/image/avatar/{filename}(filename=${p.imgPath})}"
+                            th:alt="'Avatar of ' + ${p.name}" style="width: 9rem;padding: 5px;"></div>
+                    <h5 style="text-align: center" th:text="${p.name}"></h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <a th:unless="${isSubscribe}" th:href="@{/tournaments/subscription/{id}(id=${tournament.getId()})}">Subscribe
+            tournament</a>
+        <a th:if="${isSubscribe}" th:href="@{/tournaments/unsubscription/{id}(id=${tournament.getId()})}">Unsubscribe
+            tournament</a>
+    </div>
+
+</div>
+<div><a th:href="@{/tournaments}">Go back to list</a></div>
+
+<!-- FOOTER -->
+<span th:replace="~{home :: footer}"></span>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournament List</title>
+    <link th:replace="~{home :: bootstrapImport}">
+</head>
+<body>
+<!-- NAVBAR -->
+<span th:replace="~{home :: navbar}"></span>
+
+<!-- BODY -->
+<div class="container">
+    <h1 th:text="${tournament.getId() != null ? 'Update Tournament' : 'Add tournament'}"></h1>
+    <form th:action="@{/tournaments/add}" method="post" th:object="${tournament}">
+        <input th:field="*{id}" type="hidden">
+        <div class="mb-3">
+            <label for="name">Name :</label>
+            <input type="text" class="form-control" id="name" placeholder="Tournament name" th:field="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="date">Date :</label>
+            <input type="datetime-local" class="form-control" id="date" th:field="*{date}">
+            <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="game">Game :</label>
+            <input type="text" class="form-control" id="game" placeholder="Game name" th:field="*{game}" >
+            <span th:if="${#fields.hasErrors('game')}" th:errors="*{game}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="playerLimit">Player limit :</label>
+            <input type="number" class="form-control" id="playerLimit" th:field="*{playerLimit}">
+            <span th:if="${#fields.hasErrors('playerLimit')}" th:errors="*{playerLimit}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="rules">Rules :</label>
+            <input type="text" class="form-control" id="rules" placeholder="Rules" th:field="*{rules}">
+            <span th:if="${#fields.hasErrors('rules')}" th:errors="*{rules}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="format">Format :</label>
+            <select class="form-control" id="format" th:field="*{format}">
+                <option th:each="f : ${formats}" th:text="${f.toString()}" th:value="${f.toString()}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('format')}" th:errors="*{format}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="status">Status :</label>
+            <select class="form-control" id="status" th:field="*{status}">
+                <option th:each="s : ${status}" th:text="${s.toString()}" th:value="${s.toString()}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
+        </div>
+
+        <button class="btn btn-primary" th:text="${tournament.getId() != null ? 'Update tournament' : 'Add tournament'}"></button>
+    </form>
+</div>
+
+
+<!-- FOOTER -->
+<span th:replace="~{home :: footer}"></span>
+</body>
+</html>
